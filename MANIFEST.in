@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include config.json
+recursive-include mcp_empty_server *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.pyc
+recursive-exclude * *.pyo 

@@ -1,0 +1,13 @@
+Collecting GitPython
+  Downloading gitpython-3.1.45-py3-none-any.whl.metadata (13 kB)
+Collecting gitdb<5,>=4.0.1 (from GitPython)
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->GitPython)
+  Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Downloading gitpython-3.1.45-py3-none-any.whl (208 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 208.2/208.2 kB 1.9 MB/s eta 0:00:00
+Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 kB 4.2 MB/s eta 0:00:00
+Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+Installing collected packages: smmap, gitdb, GitPython
+Successfully installed GitPython-3.1.45 gitdb-4.0.12 smmap-5.0.2

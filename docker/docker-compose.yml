@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mcp-dochub-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mcp-dochub-server
+    restart: unless-stopped
+    ports:
+      - "8060:8060"
+    volumes:
+      # Configuration directory
+      - ../config:/app/config:ro
+      # Logs directory  
+      - ../logs:/app/logs
+      # Cache directory
+      - ../cache:/app/cache
+      # Docker socket to access host Docker daemon
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    networks:
+      - mcp-network
+      - smart-assistant
+
+networks:
+  mcp-network:
+    driver: bridge
+  smart-assistant:
+    external: true 
