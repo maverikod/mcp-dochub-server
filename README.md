@@ -135,6 +135,13 @@ curl -X POST http://localhost:8060/cmd \
 - `git_commit` - Create commits with file staging
 - `git_push` - Push changes to remote repository
 
+## Vast.ai Commands (GPU Cloud Computing)
+
+- `vast_search` - Search for available GPU instances
+- `vast_create` - Create (rent) GPU instances
+- `vast_instances` - List your active instances
+- `vast_destroy` - Stop/delete GPU instances
+
 ## Queue Commands
 
 - `queue_status` - Get overall queue status
@@ -162,9 +169,28 @@ Create a `config.json` file:
   "commands": {
     "auto_discovery": true,
     "discovery_path": "mcp_empty_server.commands"
+  },
+  "docker": {
+    "username": "your-docker-username",
+    "token": "your-docker-access-token",
+    "registry": "docker.io"
+  },
+  "github": {
+    "username": "your-github-username", 
+    "token": "ghp_your_personal_access_token_here"
+  },
+  "vast": {
+    "api_key": "your-vast-api-key-here",
+    "api_url": "https://console.vast.ai/api/v0"
   }
 }
 ```
+
+### Getting API Keys
+
+- **Docker**: Create access token at [Docker Hub Settings](https://hub.docker.com/settings/security)
+- **GitHub**: Create PAT at [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+- **Vast.ai**: Get API key from [Vast.ai Console > Account](https://console.vast.ai/account/)
 
 ## API Documentation
 
