@@ -59,7 +59,7 @@ class DockerTagCommand(Command):
                 error_output = stderr.decode('utf-8')
                 raise CommandError(
                     f"Docker tag failed with exit code {process.returncode}",
-                    details={
+                    data={
                         "stderr": error_output,
                         "stdout": stdout.decode('utf-8'),
                         "command": " ".join(cmd),
@@ -81,20 +81,17 @@ class DockerTagCommand(Command):
         except ValidationError as e:
             return ErrorResult(
                 message=str(e),
-                code="VALIDATION_ERROR",
-                details={"error_type": "validation"}
+                code="VALIDATION_ERROR"
             )
         except CommandError as e:
             return ErrorResult(
                 message=str(e),
-                code="TAG_ERROR",
-                details=e.data
+                code="TAG_ERROR"
             )
         except Exception as e:
             return ErrorResult(
                 message=f"Unexpected error during Docker tag: {str(e)}",
-                code="INTERNAL_ERROR",
-                details={"error_type": "unexpected", "error": str(e)}
+                code="INTERNAL_ERROR"
             )
     
     @classmethod

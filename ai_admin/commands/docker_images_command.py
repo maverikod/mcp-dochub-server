@@ -86,7 +86,7 @@ class DockerImagesCommand(Command):
                 error_output = stderr.decode('utf-8')
                 raise CommandError(
                     f"Docker images command failed with exit code {process.returncode}",
-                    details={
+                    data={
                         "stderr": error_output,
                         "command": " ".join(cmd),
                         "exit_code": process.returncode
@@ -167,14 +167,12 @@ class DockerImagesCommand(Command):
         except CommandError as e:
             return ErrorResult(
                 message=str(e),
-                code="IMAGES_ERROR",
-                details=e.data
+                code="IMAGES_ERROR"
             )
         except Exception as e:
             return ErrorResult(
                 message=f"Unexpected error listing Docker images: {str(e)}",
-                code="INTERNAL_ERROR",
-                details={"error_type": "unexpected", "error": str(e)}
+                code="INTERNAL_ERROR"
             )
     
     @classmethod

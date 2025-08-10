@@ -99,7 +99,7 @@ class DockerBuildCommand(Command):
             if process.returncode != 0:
                 raise CommandError(
                     f"Docker build failed with exit code {process.returncode}",
-                    details={
+                    data={
                         "stdout": stdout.decode('utf-8'),
                         "stderr": stderr.decode('utf-8'),
                         "command": " ".join(cmd)
@@ -135,20 +135,17 @@ class DockerBuildCommand(Command):
         except ValidationError as e:
             return ErrorResult(
                 message=str(e),
-                code="VALIDATION_ERROR",
-                details={"error_type": "validation"}
+                code="VALIDATION_ERROR"
             )
         except CommandError as e:
             return ErrorResult(
                 message=str(e),
-                code="BUILD_ERROR",
-                details=e.data
+                code="BUILD_ERROR"
             )
         except Exception as e:
             return ErrorResult(
                 message=f"Unexpected error during Docker build: {str(e)}",
-                code="INTERNAL_ERROR",
-                details={"error_type": "unexpected", "error": str(e)}
+                code="INTERNAL_ERROR"
             )
     
     @classmethod

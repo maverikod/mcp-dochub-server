@@ -75,7 +75,7 @@ class DockerRemoveCommand(Command):
                 
                 raise CommandError(
                     f"Docker rmi failed with exit code {process.returncode}",
-                    details={
+                    data={
                         "stderr": error_output,
                         "stdout": success_output,
                         "command": " ".join(cmd),
@@ -122,20 +122,17 @@ class DockerRemoveCommand(Command):
         except ValidationError as e:
             return ErrorResult(
                 message=str(e),
-                code="VALIDATION_ERROR",
-                details={"error_type": "validation"}
+                code="VALIDATION_ERROR"
             )
         except CommandError as e:
             return ErrorResult(
                 message=str(e),
-                code="REMOVE_ERROR",
-                details=e.data
+                code="REMOVE_ERROR"
             )
         except Exception as e:
             return ErrorResult(
                 message=f"Unexpected error during Docker rmi: {str(e)}",
-                code="INTERNAL_ERROR",
-                details={"error_type": "unexpected", "error": str(e)}
+                code="INTERNAL_ERROR"
             )
     
     @classmethod

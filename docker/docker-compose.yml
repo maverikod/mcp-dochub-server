@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  mcp-dochub-server:
+  ai-admin-server:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: mcp-dochub-server
+    container_name: ai-admin
     restart: unless-stopped
     ports:
       - "8060:8060"

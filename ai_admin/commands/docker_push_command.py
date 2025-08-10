@@ -25,6 +25,7 @@ class DockerPushCommand(Command):
         all_tags: bool = False,
         disable_content_trust: bool = False,
         quiet: bool = False,
+        use_queue: bool = True,
         **kwargs
     ) -> SuccessResult:
         """Execute Docker push command.
@@ -43,6 +44,35 @@ class DockerPushCommand(Command):
             # Validate inputs
             if not image_name:
                 raise ValidationError("Image name is required")
+            
+            # Use queue for long-running operations
+            if use_queue:
+                from ai_admin.queue.task_queue import TaskQueue, DockerTask, TaskType, TaskStatus
+                
+                # Create task
+                task = DockerTask(
+                    task_type=TaskType.PUSH,
+                    params={
+                        "image_name": image_name,
+                        "tag": tag,
+                        "all_tags": all_tags,
+                        "disable_content_trust": disable_content_trust,
+                        "quiet": quiet
+                    }
+                )
+                
+                # Add to queue
+                queue = TaskQueue()
+                task_id = await queue.add_task(task)
+                
+                return SuccessResult(data={
+                    "status": "queued",
+                    "message": "Docker push task added to queue",
+                    "task_id": task_id,
+                    "image_name": image_name,
+                    "tag": tag if not all_tags else "all",
+                    "queue_position": len(await queue.get_tasks_by_status(TaskStatus.PENDING))
+                })
             
             # Construct full image name
             if all_tags:
@@ -83,7 +113,7 @@ class DockerPushCommand(Command):
                 error_output = stderr.decode('utf-8')
                 raise CommandError(
                     f"Docker push failed with exit code {process.returncode}",
-                    details={
+                    data={
                         "stderr": error_output,
                         "stdout": stdout.decode('utf-8'),
                         "command": " ".join(cmd),
@@ -123,20 +153,17 @@ class DockerPushCommand(Command):
         except ValidationError as e:
             return ErrorResult(
                 message=str(e),
-                code="VALIDATION_ERROR",
-                details={"error_type": "validation"}
+                code="VALIDATION_ERROR"
             )
         except CommandError as e:
             return ErrorResult(
                 message=str(e),
-                code="PUSH_ERROR",
-                details=e.data
+                code="PUSH_ERROR"
             )
         except Exception as e:
             return ErrorResult(
                 message=f"Unexpected error during Docker push: {str(e)}",
-                code="INTERNAL_ERROR",
-                details={"error_type": "unexpected", "error": str(e)}
+                code="INTERNAL_ERROR"
             )
     
     @classmethod

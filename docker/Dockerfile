@@ -34,4 +34,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8060/health || exit 1
 
 # Default command
-CMD ["python", "-m", "mcp_empty_server.server", "--host", "0.0.0.0", "--port", "8060"] 
+CMD ["python", "-m", "ai_admin.server", "--host", "0.0.0.0", "--port", "8060"] 
