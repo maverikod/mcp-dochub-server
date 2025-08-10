@@ -134,6 +134,12 @@ cache/
 config/config.json
 *.pid
 
+# Ollama models and cache
+docker/models/
+models/
+.ollama/
+ollama/
+
 # IDE
 .vscode/
 .idea/
